@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ange Farelle Boupda — Portfolio QSE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #0A0A0A;
+  --ink-60: rgba(10,10,10,0.60);
+  --ink-30: rgba(10,10,10,0.30);
+  --ink-10: rgba(10,10,10,0.10);
+  --ink-05: rgba(10,10,10,0.05);
+  --paper: #F7F5F0;
+  --white: #FFFFFF;
+  --accent: #1A3A5C;
+  --accent-light: #2D5A8E;
+  --accent-pale: rgba(26,58,92,0.08);
+  --gold: #8B6914;
+  --gold-pale: rgba(139,105,20,0.10);
+  --rule: rgba(10,10,10,0.12);
+  --f-display: 'Cormorant Garamond', Georgia, serif;
+  --f-body: 'Instrument Sans', system-ui, sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--f-body);
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--ink);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s var(--ease-out), width 0.3s var(--ease-out), height 0.3s var(--ease-out), background 0.3s;
+}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(10,10,10,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.18s var(--ease-out), width 0.35s var(--ease-out), height 0.35s var(--ease-out), border-color 0.3s, opacity 0.3s;
+}
+body:hover .cursor-ring { opacity: 1; }
+a:hover ~ .cursor, button:hover ~ .cursor { width: 12px; height: 12px; }
+
+/* SCROLL ANIMATIONS */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+}
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+[data-delay="1"] { transition-delay: 0.1s; }
+[data-delay="2"] { transition-delay: 0.2s; }
+[data-delay="3"] { transition-delay: 0.3s; }
+[data-delay="4"] { transition-delay: 0.45s; }
+[data-delay="5"] { transition-delay: 0.6s; }
+
+/* PROGRESS BAR */
+#progress {
+  position: fixed; top: 0; left: 0;
+  height: 2px; background: var(--accent);
+  width: 0%; z-index: 1000;
+  transition: width 0.1s linear;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 900;
+  padding: 0 4vw;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.5s, backdrop-filter 0.5s, border-bottom 0.5s;
+}
+nav.scrolled {
+  background: rgba(247,245,240,0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-logo {
+  font-family: var(--f-display);
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink-60);
+  transition: color 0.2s;
+  position: relative;
+  padding-bottom: 2px;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 0.3s var(--ease-out);
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover::after { width: 100%; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 4vw 8vh;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg-line {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--rule);
+}
+.hero-bg-line:nth-child(1) { left: 33.33%; }
+.hero-bg-line:nth-child(2) { left: 66.66%; }
+
+.hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block; width: 40px; height: 1px;
+  background: var(--accent);
+}
+
+.hero-headline {
+  font-family: var(--f-display);
+  font-size: clamp(3.2rem, 8vw, 7.5rem);
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 3rem;
+}
+.hero-headline em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent);
+}
+
+.hero-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--rule);
+}
+.hero-stat-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-30);
+  margin-bottom: 0.5rem;
+}
+.hero-stat-val {
+  font-family: var(--f-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--ink);
+}
+.scroll-hint {
+  position: absolute;
+  bottom: 3vh; right: 4vw;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-30);
+}
+.scroll-line {
+  width: 1px; height: 60px;
+  background: linear-gradient(to bottom, var(--ink-30), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(0.6); opacity: 0.4; }
+}
+
+/* PROFILE SECTION */
+.profile-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10vh 4vw;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 6vw;
+  align-items: start;
+}
+.profile-portrait {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+}
+.portrait-circle {
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  position: relative;
+}
+.portrait-circle::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(10,10,10,0.15);
+}
+.portrait-circle img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(15%) contrast(1.05);
+  transition: filter 0.5s;
+}
+.portrait-circle:hover img { filter: grayscale(0%) contrast(1); }
+
+.portrait-name {
+  font-family: var(--f-display);
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.portrait-title {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--ink-60);
+  margin-top: 0.3rem;
+  line-height: 1.6;
+}
+.portrait-credentials {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-top: 0.5rem;
+}
+.credential {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.78rem; color: var(--ink-60);
+}
+.credential-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+}
+
+.profile-content {}
+.section-sup {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.section-sup::before {
+  content: '';
+  display: block; width: 28px; height: 1px;
+  background: var(--accent);
+}
+.section-heading {
+  font-family: var(--f-display);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 2rem;
+}
+.section-heading em { font-style: italic; color: var(--accent); }
+
+.mapping-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 3rem;
+}
+.mapping-table thead tr {
+  border-bottom: 2px solid var(--ink);
+}
+.mapping-table th {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+  padding: 0 0 1rem;
+  text-align: left;
+}
+.mapping-table th:last-child { text-align: right; }
+.mapping-table tbody tr {
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.2s;
+}
+.mapping-table tbody tr:hover { background: var(--accent-pale); }
+.mapping-table td {
+  padding: 1.2rem 1rem 1.2rem 0;
+  font-size: 0.875rem;
+  color: var(--ink);
+  vertical-align: top;
+  line-height: 1.6;
+}
+.mapping-table td:first-child { color: var(--ink-60); font-style: italic; }
+.mapping-table td:last-child { text-align: right; color: var(--accent); font-weight: 600; }
+
+.check-mark {
+  display: inline-block;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 10px;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* DIVIDER */
+.section-divider {
+  max-width: 1200px; margin: 0 auto;
+  height: 1px; background: var(--rule);
+}
+.section-divider-full {
+  height: 1px; background: var(--rule);
+}
+
+/* PROJECT SECTION */
+.project-section {
+  padding: 12vh 0;
+  position: relative;
+}
+.project-section:nth-of-type(even) { background: var(--white); }
+
+.project-inner { max-width: 1200px; margin: 0 auto; padding: 0 4vw; }
+
+.project-number {
+  font-family: var(--f-display);
+  font-size: clamp(8rem, 16vw, 14rem);
+  font-weight: 300;
+  color: var(--ink-05);
+  line-height: 1;
+  margin-bottom: -2rem;
+  letter-spacing: -0.04em;
+  user-select: none;
+}
+
+.project-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 4vw;
+  align-items: start;
+  padding-bottom: 4rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 5rem;
+}
+.project-category {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 12px;
+}
+.project-category::before {
+  content: '';
+  display: block; width: 24px; height: 1px;
+  background: var(--accent);
+}
+.project-title {
+  font-family: var(--f-display);
+  font-size: clamp(2.2rem, 4.5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+}
+.project-title em { font-style: italic; color: var(--accent); }
+.project-abstract {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--ink-60);
+  max-width: 600px;
+}
+
+.project-meta-block {
+  display: flex; flex-direction: column; gap: 1.5rem;
+  padding: 2rem;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+}
+.meta-line {
+  display: flex; flex-direction: column; gap: 0.3rem;
+}
+.meta-key {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-30);
+}
+.meta-val {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+/* CONTENT BLOCKS */
+.content-block {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 4rem;
+  padding: 4rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.content-block:last-child { border-bottom: none; }
+
+.block-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-30);
+  padding-top: 0.25rem;
+}
+.block-label-num {
+  display: block;
+  font-family: var(--f-display);
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--ink-10);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.block-title {
+  font-family: var(--f-display);
+  font-size: 1.8rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+}
+.block-body {
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  color: var(--ink-60);
+  margin-bottom: 1.5rem;
+}
+.block-body strong { color: var(--ink); font-weight: 600; }
+
+/* PHASE LIST */
+.phase-list { display: flex; flex-direction: column; gap: 0; margin-top: 1rem; }
+.phase-item {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 1.5rem;
+  position: relative;
+  padding-bottom: 2.5rem;
+}
+.phase-item:last-child { padding-bottom: 0; }
+.phase-item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 23px; top: 48px; bottom: 0;
+  width: 1px;
+  background: var(--rule);
+}
+.phase-num-circle {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--f-display);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--ink);
+  flex-shrink: 0;
+  position: relative; z-index: 1;
+  transition: background 0.3s, border-color 0.3s, color 0.3s;
+}
+.phase-item:hover .phase-num-circle {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.phase-content-wrap {}
+.phase-heading {
+  font-size: 0.925rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+  padding-top: 0.65rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.phase-timing {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--ink-30);
+  font-family: var(--f-body);
+}
+.phase-desc {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--ink-60);
+  margin-bottom: 1rem;
+}
+.phase-deliverable-list {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.phase-deliverable {
+  font-size: 0.825rem;
+  color: var(--ink);
+  padding: 0.6rem 1rem;
+  border-left: 2px solid var(--rule);
+  background: var(--paper);
+  line-height: 1.55;
+  transition: border-color 0.2s, background 0.2s;
+}
+.phase-deliverable:hover { border-left-color: var(--accent); background: var(--accent-pale); }
+.phase-deliverable span.tech {
+  display: inline-block;
+  font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 1px 7px; border-radius: 3px;
+  background: rgba(26,58,92,0.1); color: var(--accent);
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* RESULTS GRID */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin: 2rem 0;
+}
+.result-cell {
+  background: var(--paper);
+  padding: 2rem 1.5rem;
+  text-align: left;
+}
+.result-figure {
+  font-family: var(--f-display);
+  font-size: 2.8rem;
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+.result-figure .counter { display: inline; }
+.result-suffix {
+  font-size: 1.2rem;
+  color: var(--accent);
+}
+.result-desc {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--ink-60);
+}
+.result-ref {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-30);
+  margin-top: 0.4rem;
+}
+
+/* DELIVERABLES GRID */
+.deliverables-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin: 2rem 0;
+}
+.deliverable-cell {
+  background: var(--white);
+  padding: 2rem 1.5rem;
+  transition: background 0.25s;
+}
+.deliverable-cell:hover { background: var(--accent-pale); }
+.deliverable-type {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+.deliverable-name {
+  font-family: var(--f-display);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  line-height: 1.25;
+}
+.deliverable-desc {
+  font-size: 0.825rem;
+  line-height: 1.6;
+  color: var(--ink-60);
+}
+
+/* CRITICAL NOTE */
+.critical-note {
+  padding: 2rem 2rem 2rem 2.5rem;
+  border-left: 2px solid var(--gold);
+  background: var(--gold-pale);
+  margin: 2rem 0;
+}
+.critical-note-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+.critical-note-text {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--ink);
+  font-style: italic;
+  font-family: var(--f-display);
+  font-size: 1.1rem;
+  font-weight: 300;
+}
+
+/* REGULATION LIST */
+.reg-list { display: flex; flex-direction: column; gap: 10px; margin: 1.5rem 0; }
+.reg-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--rule);
+  background: var(--white);
+  transition: border-color 0.2s;
+}
+.reg-item:hover { border-color: var(--accent); }
+.reg-code {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  min-width: 120px;
+  padding-top: 2px;
+}
+.reg-text {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--ink-60);
+}
+
+/* METHODOLOGY SECTION */
+.method-section {
+  background: var(--ink);
+  padding: 12vh 0;
+  color: var(--paper);
+}
+.method-inner { max-width: 1200px; margin: 0 auto; padding: 0 4vw; }
+.method-heading {
+  font-family: var(--f-display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 300;
+  color: var(--paper);
+  margin-bottom: 1rem;
+}
+.method-heading em { font-style: italic; color: rgba(180,200,230,0.9); }
+.method-sub {
+  font-size: 0.925rem;
+  line-height: 1.7;
+  color: rgba(247,245,240,0.5);
+  max-width: 640px;
+  margin-bottom: 5rem;
+}
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(247,245,240,0.1);
+  border: 1px solid rgba(247,245,240,0.1);
+}
+.method-cell {
+  background: var(--ink);
+  padding: 2.5rem 2rem;
+  transition: background 0.3s;
+}
+.method-cell:hover { background: rgba(247,245,240,0.05); }
+.method-cell-num {
+  font-family: var(--f-display);
+  font-size: 3.5rem;
+  font-weight: 300;
+  color: rgba(247,245,240,0.08);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+.method-cell-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--paper);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(247,245,240,0.1);
+}
+.method-cell-body {
+  font-size: 0.825rem;
+  line-height: 1.7;
+  color: rgba(247,245,240,0.55);
+}
+
+/* FOOTER */
+footer {
+  padding: 5vh 4vw;
+  display: flex;
+  align-items: center; justify-content: space-between;
+  border-top: 1px solid var(--rule);
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-name {
+  font-family: var(--f-display);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--ink);
+}
+.footer-contacts {
+  display: flex; gap: 2.5rem;
+  list-style: none;
+}
+.footer-contacts a {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-60);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-contacts a:hover { color: var(--accent); }
+.footer-note {
+  font-size: 0.72rem;
+  color: var(--ink-30);
+  letter-spacing: 0.04em;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .profile-section { grid-template-columns: 1fr; }
+  .profile-portrait { position: static; flex-direction: row; align-items: center; gap: 2rem; flex-wrap: wrap; }
+  .portrait-circle { width: 120px; height: 120px; }
+  .project-header { grid-template-columns: 1fr; }
+  .content-block { grid-template-columns: 1fr; gap: 1rem; }
+  .block-label-num { display: none; }
+  .results-grid { grid-template-columns: repeat(2, 1fr); }
+  .deliverables-grid { grid-template-columns: repeat(2, 1fr); }
+  .method-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .hero-bottom { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+@media (max-width: 600px) {
+  .results-grid { grid-template-columns: 1fr 1fr; }
+  .deliverables-grid { grid-template-columns: 1fr; }
+  .cursor, .cursor-ring { display: none; }
+  body { cursor: auto; }
+}
+
+/* COUNTER ANIMATION */
+@keyframes countUp { from { opacity: 0; } to { opacity: 1; } }
+
+/* LINE DRAW */
+.draw-line {
+  height: 1px;
+  background: var(--rule);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 1.2s var(--ease-out);
+}
+.draw-line.visible { transform: scaleX(1); }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div id="progress"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Ange Farelle Boupda</a>
+  <ul class="nav-links">
+    <li><a href="#profil">Positionnement</a></li>
+    <li><a href="#projet-1">Projet I</a></li>
+    <li><a href="#projet-2">Projet II</a></li>
+    <li><a href="#methode">Methode</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg-line"></div>
+  <div class="hero-bg-line"></div>
+
+  <div class="reveal">
+    <div class="hero-eyebrow">Portfolio - Candidature Consultant QSE - Bureau Veritas 2026</div>
+    <h1 class="hero-headline">
+      Deux missions.<br>
+      <em>La rigueur</em><br>
+      Bureau Veritas.
+    </h1>
+  </div>
+
+  <div class="hero-bottom reveal" data-delay="3">
+    <div>
+      <div class="hero-stat-label">Formation</div>
+      <div class="hero-stat-val">Mastere Spécialisé CentraleSupelec</div>
+    </div>
+    <div>
+      <div class="hero-stat-label">Certification</div>
+      <div class="hero-stat-val">Lean Six Sigma Green Belt</div>
+    </div>
+    <div>
+      <div class="hero-stat-label">Specialité</div>
+      <div class="hero-stat-val">Management Industriel &amp; Amélioration Continue</div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Defiler</span>
+  </div>
+</section>
+
+<div class="section-divider-full"></div>
+
+<!-- PROFILE -->
+<section id="profil">
+  <div class="profile-section">
+    <div class="profile-portrait reveal-left">
+      <div class="portrait-circle">
+        <img
+          src="https://media.licdn.com/dms/image/v2/D4E03AQEJjU8UNLmViA/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1731280148181?e=1776902400&v=beta&t=dn554zEm338eiDe5eUqtwCrv5yp4yMG9jFPaZFGGEfM"
+          alt="Ange Farelle Boupda"
+          onerror="this.parentElement.style.background='var(--ink)';this.style.display='none';"
+        />
+      </div>
+      <div class="portrait-name">Ange Farelle<br>Boupda</div>
+      <div class="portrait-title">Ingenieure generaliste - Mastere Spécialisé Management<br>Industriel, Projet &amp; Amélioration Continue</div>
+      <div class="portrait-credentials">
+        <div class="credential"><span class="credential-dot"></span>Lean Six Sigma Green Belt certifiee</div>
+        <div class="credential"><span class="credential-dot"></span>Lean Management / DMAIC / PDCA</div>
+        <div class="credential"><span class="credential-dot"></span>Power BI - Pilotage operationnel</div>
+        <div class="credential"><span class="credential-dot"></span>Risques industriels - Air Liquide</div>
+        <div class="credential"><span class="credential-dot"></span>Permis B</div>
+      </div>
+    </div>
+
+    <div class="profile-content">
+      <div class="section-sup reveal">Positionnement</div>
+      <h2 class="section-heading reveal" data-delay="1">Mon profil face aux<br><em>exigences du poste</em></h2>
+      <p class="block-body reveal" data-delay="2">Ce portfolio est construit pour repondre par ma manière de travailler point par point aux missions definies dans l'offre Bureau Veritas. Chaque competence est adossee a une experience terrain verifiable et a une methodologie structurée identique a celle utilisée par les consultants de Veritas.</p>
+
+      <div class="draw-line reveal" data-delay="2" style="margin-bottom: 0;"></div>
+      <table class="mapping-table reveal" data-delay="2">
+        <thead>
+          <tr>
+            <th>Exigence Bureau Veritas</th>
+            <th>Ma réponse concrete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Diagnostics &amp; évaluation des risques professionnels</td>
+            <td>DUERP complet (Projet I) - méthode INRS, art. R4121-1, cotation G×F×M sur 8 unités de travail</td>
+          </tr>
+          <tr>
+            <td>Evaluation du risque chimique</td>
+            <td>Inventaire ACD, méthode INRS ND2233, GEH, VLEP, notices de poste (Projet II : contexte Air Liquide)</td>
+          </tr>
+          <tr>
+            <td>Etudes ATEX</td>
+            <td>Zonage zones 0/1/2, audit matériel, rédaction DRPE, directive 99/92/CE, Projet II, 6 phases</td>
+          </tr>
+          <tr>
+            <td>Conformite réglementaire HSE</td>
+            <td>Code du travail, Loi Sante au Travail 2021, decret 2002-1553, veille annuelle integrée au PAPRIPACT</td>
+          </tr>
+          <tr>
+            <td>Animation de formations HSE</td>
+            <td>2 modules ATEX (opérateurs et référents), module managers DUERP, quiz d'évaluation inclus</td>
+          </tr>
+          <tr>
+            <td>Relation client, dévis et suivi commercial</td>
+            <td>Restitution COPIL, proposition mission annuelle, offre de suivi - compétence directement issue de 18 mois en conseil</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="critical-note reveal" data-delay="3">
+        <div class="critical-note-label">Valeur ajoutee differenciante</div>
+        <div class="critical-note-text">La certification Green Belt et la maitrise de Power BI transforment ces missions reglementaires en outils de pilotage vivants. Je livre un dispositif de prevention qui continue à fonctionner apres ma mission.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider-full"></div>
+
+<!-- PROJECT 1 -->
+<section class="project-section" id="projet-1">
+  <div class="project-inner">
+
+    <div class="project-number reveal">01</div>
+
+    <div class="project-header">
+      <div class="reveal-left">
+        <div class="project-category">Mission de conseil - Securite au travail</div>
+        <h2 class="project-title">Refonte du <em>Document Unique</em><br>d'Evaluation des Risques Professionnels</h2>
+        <p class="project-abstract">Mission complete de 12 semaines simulant une prestation Bureau Veritas aupres d'un site industriel agroalimentaire de 120 salaries. De la visite terrain a la restitution COPIL, en passant par la redaction d'un DUERP conforme aux evolutions legislatives de 2021 et le deploiement d'un tableau de bord Power BI pour le pilotage annuel de la prevention.</p>
+      </div>
+      <div class="project-meta-block reveal-right" data-delay="1">
+        <div class="meta-line">
+          <div class="meta-key">Secteur simule</div>
+          <div class="meta-val">Industrie agroalimentaire - 120 salaries</div>
+        </div>
+        <div class="meta-line">
+          <div class="meta-key">Duree de la mission</div>
+          <div class="meta-val">12 semaines</div>
+        </div>
+        <div class="meta-line">
+          <div class="meta-key">Referentiel Bureau Veritas</div>
+          <div class="meta-val">Accompagnement DUERP &amp; PAPRIPACT</div>
+        </div>
+        <div class="meta-line">
+          <div class="meta-key">Competences mobilisees</div>
+          <div class="meta-val">Evaluation des risques, Lean DMAIC, Power BI, animation formation, relation client</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTEXTE -->
+    <div class="content-block">
+      <div class="block-label reveal-left">
+        <span class="block-label-num">A</span>
+        Contexte &amp; enjeu
+      </div>
+      <div class="reveal-right">
+        <h3 class="block-title">Pourquoi cette mission existe</h3>
+        <p class="block-body">Un site agroalimentaire de production de 120 salaries operant sur trois postes en continu dispose d'un Document Unique date de 2019. La Loi du 2 aout 2021 pour renforcer la prevention en sante au travail a profondement modifie les obligations : introduction de la traçabilite collective des expositions, obligation de relier le DUERP a un PAPRIPACT formalise, prise en compte des polyexpositions et archivage obligatoire pendant 40 ans avec depot sur portail numerique officiel. <strong>L'entreprise est exposee a une amende de 5e classe (jusqu'a 9 000 euros par recidive) et surtout a un risque juridique majeur en cas d'accident du travail ou de maladie professionnelle.</strong></p>
+        <p class="block-body">L'intervention Bureau Veritas repond a trois imperatives simultanees : mettre le DUERP en conformite avec le droit en vigueur, en faire un outil de decision operationnel plutot qu'un document archive, et transferer la competence de mise a jour aux managers de proximite.</p>
+
+        <div class="reg-list">
+          <div class="reg-item">
+            <div class="reg-code">Art. R4121-1 CT</div>
+            <div class="reg-text">Obligation de transcription des resultats de l'evaluation des risques dans le Document Unique, applicable a toute entreprise a partir du 1er salarie</div>
+          </div>
+          <div class="reg-item">
+            <div class="reg-code">Loi 2021-1018</div>
+            <div class="reg-text">Renforcement de la prevention en sante au travail, traçabilite collective, polyexpositions, lien obligatoire avec PAPRIPACT pour les entreprises de 50 salaries et plus</div>
+          </div>
+          <div class="reg-item">
+            <div class="reg-code">Art. R4121-4 CT</div>
+            <div class="reg-text">Archivage du DUERP dans toutes ses versions successives pendant 40 ans a compter de son elaboration</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OBJECTIFS -->
+    <div class="content-block">
+      <div class="block-label reveal-left">
+        <span class="block-label-num">B</span>
+        Objectifs
+      </div>
+      <div class="reveal-right">
+        <h3 class="block-title">Ce que cette mission doit produire</h3>
+        <p class="block-body">Quatre objectifs contractuels, mesurables, determines en phase de cadrage avec la direction et le CSE du site :</p>
+        <div class="phase-deliverable-list" style="margin-bottom:1.5rem;">
+          <div class="phase-deliverable"><strong>01 - Conformite reglementaire totale.</strong> Mettre le DUERP en conformite avec la Loi Sante au Travail 2021 : traçabilite collective, polyexpositions identifiees, depot numerique archive, lien etabli avec le PAPRIPACT.</div>
+          <div class="phase-deliverable"><strong>02 - Couverture exhaustive du perimetre.</strong> Evaluer l'integralite des risques professionnels sur les 8 unites de travail definies, selon les 17 familles de risques INRS, en integrant les risques emergents (RPS, TMS, polyexposition bruit/chimique).</div>
+          <div class="phase-deliverable"><strong>03 - Plan d'action operationnel.</strong> Produire un PAPRIPACT de 35 actions minimum, hierarchisees par criticite et ROI prevention, avec responsables nommes, echeances, budgets estimes et indicateurs de suivi.</div>
+          <div class="phase-deliverable"><strong>04 - Autonomie des equipes.</strong> Former les 5 managers de proximite a la mise a jour du DUERP et au suivi du PAPRIPACT, avec un tableau de bord Power BI qu'ils puissent utiliser sans competence technique particuliere.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- METHODOLOGIE -->
+    <div class="content-block">
+      <div class="block-label reveal-left">
+        <span class="block-label-num">C</span>
+        Methodologie
+      </div>
+      <div class="reveal-right">
+        <h3 class="block-title">Cinq phases, une progression rigoureuse</h3>
+        <p class="block-body">La mission suit la methodologie Bureau Veritas d'accompagnement DUERP, enrichie d'une approche Lean pour la priorisation des actions de prevention. Chaque phase genere des livrables intermediaires soumis au client avant de passer a la suivante.</p>
+
+        <div class="phase-list">
+          <div class="phase-item">
+            <div class="phase-num-circle">1</div>
+            <div class="phase-content-wrap">
+              <div class="phase-heading">Cadrage et collecte documentaire <span class="phase-timing">Semaines 1 - 2</span></div>
+              <div class="phase-desc">Analyse du contexte client par immersion documentaire : registre des accidents du travail et maladies professionnelles sur 5 ans, Fiches de Donnees de Securite (FDS) des produits chimiques utilises, plans de prevention interentreprises, rapports CARSAT ou inspection du travail anterieurs, et donnees d'exposition aux facteurs de penibilite (compte professionnel de prevention). Entretien d'ouverture avec la direction, le referent securite et le secretaire du CSE pour aligner les attentes et definir le perimetre contractuel.</div>
+              <div class="phase-deliverable-list">
+                <div class="phase-deliverable">Rapport de premiere analyse documentaire, lacunes et points de vigilance identifies <span class="tech">Excel</span></div>
+                <div class="phase-deliverable">Definition des 8 unites de travail (UT) conforme art. R4121-1, soumise a validation CSE</div>
+                <div class="phase-deliverable">Cartographie VSM des flux de production, identification des zones a risques prioritaires <span class="tech">Visio</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-item">
+            <div class="phase-num-circle">2</div>
+            <div class="phase-content-wrap">
+              <div class="phase-heading">Visite terrain et identification des dangers <span class="phase-timing">Semaines 3 - 5</span></div>
+              <div class="phase-desc">Inspection systematique de l'integralite du site sur 6 demi-journees, par UT, avec grille d'observation structuree. Conduite de 30 entretiens semi-directifs operateurs (methode des 5 Pourquoi pour les risques recurrents) et de 5 entretiens encadrement. Documentation photographique horodatee et georeferenced de chaque situation dangereuse identifiee. Identification des produits chimiques dangereux (ACD), avec constitution des groupes d'exposition homogene (GEH) pour preparer l'evaluation specifique.</div>
+              <div class="phase-deliverable-list">
+                <div class="phase-deliverable">Grille terrain remplie : 17 familles de risques INRS evaluees par UT, 150 situations a risques recensees <span class="tech">Excel VBA</span></div>
+                <div class="phase-deliverable">Rapport d'entretiens : verbatims structures, recurrence des risques percus, divergences signalees</div>
+                <div class="phase-deliverable">Inventaire ACD avec classification CLP, VLEP associees et identification des GEH</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-item">
+            <div class="phase-num-circle">3</div>
+            <div class="phase-content-wrap">
+              <div class="phase-heading">Cotation, hierarchisation et redaction du DUERP <span class="phase-timing">Semaines 6 - 8</span></div>
+              <div class="phase-desc">Application de la grille de cotation Gravite x Frequence x Maitrise pour les 150 situations a risques identifiees. Traitement specifique des polyexpositions : bruit associe aux substances ototoxiques, TMS cumules aux risques psychosociaux, conformement aux exigences de la Loi 2021. Structuration du DUERP par UT avec inventaire des dangers, resultats de cotation, mesures de prevention existantes (collectives, organisationnelles, individuelles) et proportion de salaries exposes aux facteurs de risques du C2P. Soumission a la direction et au CSE pour validation avant finalisation.</div>
+              <div class="phase-deliverable-list">
+                <div class="phase-deliverable">Matrice de criticite interactive cotation G×F×M, classement par niveau de risque residuel <span class="tech">Excel VBA</span></div>
+                <div class="phase-deliverable">DUERP complet - 8 UT, conforme Loi 2021, format numerique compatible portail officiel de depot</div>
+                <div class="phase-deliverable">Rapport de polyexposition : 4 situations identifiees, methode d'appreciation pragmatique BV</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-item">
+            <div class="phase-num-circle">4</div>
+            <div class="phase-content-wrap">
+              <div class="phase-heading">PAPRIPACT et dashboard de pilotage Power BI <span class="phase-timing">Semaines 9 - 10</span></div>
+              <div class="phase-desc">Elaboration du Programme Annuel de Prevention (PAPRIPACT) par application de la methode DMAIC (Define, Measure, Analyze, Improve, Control) pour prioriser les 35 actions selon leur ROI prevention : reduction du risque residuel rapportee au cout et au delai de mise en oeuvre. Construction d'un tableau de bord Power BI donne en main propre au client, permettant le suivi en temps reel du taux de realisation du PAPRIPACT, de l'evolution des niveaux de risque par UT et des indicateurs AT/MP.</div>
+              <div class="phase-deliverable-list">
+                <div class="phase-deliverable">PAPRIPACT - 35 actions, responsable nomme, echeance, budget, indicateur de succes par action <span class="tech">Excel</span></div>
+                <div class="phase-deliverable">Dashboard Power BI - 4 onglets : cartographie risques, suivi PAPRIPACT, evolution AT/MP, alertes <span class="tech">Power BI</span></div>
+                <div class="phase-deliverable">Matrice de priorisation DMAIC - scoring ROI prevention, selection des actions a impact maximal <span class="tech">Green Belt</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-item">
+            <div class="phase-num-circle">5</div>
+            <div class="phase-content-wrap">
+              <div class="phase-heading">Restitution COPIL et formation managers <span class="phase-timing">Semaines 11 - 12</span></div>
+              <div class="phase-desc">Presentation de restitution devant le COPIL securite (direction, CSE, responsable securite, medecin du travail) en format synthese executif sur 45 minutes : top 10 risques critiques, cartographie des zones a traiter en priorite, roadmap PAPRIPACT sur 12 mois. Puis animation d'une journee de formation pour les 5 managers de proximite : obligations legales du chef d'etablissement, lecture et mise a jour du DUERP, utilisation du dashboard Power BI, gestion du depot numerique. Remise du pack complet de livrables et proposition d'une mission de revue annuelle.</div>
+              <div class="phase-deliverable-list">
+                <div class="phase-deliverable">Support de restitution COPIL : synthese executif 30 slides, cartographie risques visuelles</div>
+                <div class="phase-deliverable">Module de formation managers : 1 journee, supports, cas pratiques, quiz d'evaluation</div>
+                <div class="phase-deliverable">Pack livrable complet remis au client : DUERP, PAPRIPACT, dashboard Power BI, guide de mise a jour</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTATS -->
+    <div class="content-block">
+      <div class="block-label reveal-left">
+        <span class="block-label-num">D</span>
+        Resultats
+      </div>
+      <div class="reveal-right">
+        <h3 class="block-title">Valeur produite, mesurable et durable</h3>
+        <p class="block-body">Les resultats de cette mission se mesurent a deux horizons : la conformite immediate a l'issue de la mission, et la reduction effective des risques sur 12 mois grace au PAPRIPACT pilote avec le dashboard Power BI.</p>
+
+        <div class="results-grid">
+          <div class="result-cell">
+            <div class="result-figure"><span class="counter" data-target="100">0</span><span class="result-suffix">%</span></div>
+            <div class="result-desc">Conformite reglementaire Loi Sante au Travail 2021 a l'issue de la mission</div>
+            <div class="result-ref">Art. R4121-1 a R4121-4</div>
+          </div>
+          <div class="result-cell">
+            <div class="result-figure"><span class="counter" data-target="150">0</span><span class="result-suffix">+</span></div>
+            <div class="result-desc">Situations a risques evaluees sur 8 unites de travail  17 familles INRS</div>
+            <div class="result-ref">6 demi-journees terrain</div>
+          </div>
+          <div class="result-cell">
+            <div class="result-figure"><span class="counter" data-target="35">0</span></div>
+            <div class="result-desc">Actions de prevention planifiees dans le PAPRIPACT, hierarchisees par ROI</div>
+            <div class="result-ref">Methode DMAIC - Green Belt</div>
+          </div>
+          <div class="result-cell">
+            <div class="result-figure"><span class="result-suffix" style="font-size:2rem; color:var(--ink);">-25</span><span class="result-suffix">%</span></div>
+            <div class="result-desc">Objectif de reduction des risques critiques (score superieur a 12) a 12 mois</div>
+            <div class="result-ref">Suivi dashboard Power BI</div>
+          </div>
+        </div>
+
+        <div class="critical-note">
+          <div class="critical-note-label">Analyse critique - Limite identifiee</div>
+          <div class="critical-note-text">La simulation d'une mission sans acces aux donnees AT/MP reelles du client constitue la limite principale de ce projet portfolio. En conditions reelles, la confrontation de la cotation terrain avec l'historique d'accidents sur 5 ans aurait permis de valider ou de recalibrer la grille de gravite. C'est une etape que j'integrerais systematiquement en phase 1 de toute mission reelle chez Bureau Veritas.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DELIVERABLES -->
+    <div class="content-block">
+      <div class="block-label reveal-left">
+        <span class="block-label-num">E</span>
+        Livrables
+      </div>
+      <div class="reveal-right">
+        <h3 class="block-title">Ce que le client reçoit</h3>
+        <div class="deliverables-grid">
+          <div class="deliverable-cell">
+            <div class="deliverable-type">Document reglementaire</div>
+            <div class="deliverable-name">DUERP complet</div>
+            <div class="deliverable-desc">8 unites de travail, 150 risques cotes, conforme Loi 2021, format compatible portail de depot numerique officiel — archivage 40 ans assure</div>
+          </div>
+          <div class="deliverable-cell">
+            <div class="deliverable-type">Plan de prevention</div>
+            <div class="deliverable-name">PAPRIPACT annuel</div>
+            <div class="deliverable-desc">35 actions priorisees par ROI prevention, responsable, echeance, budget estime, indicateur de succes — pret a presenter au CSE</div>
+          </div>
+          <div class="deliverable-cell">
+            <div class="deliverable-type">Outil de pilotage</div>
+            <div class="deliverable-name">Dashboard Power BI</div>
+            <div class="deliverable-desc">4 onglets interactifs : cartographie des risques residuels, avancement PAPRIPACT, evolution AT/MP, alertes echeances</div>
+          </div>
+          <div class="deliverable-cell">
+            <div class="deliverable-type">Formation</div>
+            <div class="deliverable-name">Module managers</div>
+            <div class="deliverable-desc">Journee de formation HSE : lecture du DUERP, obligations legales, mise a jour autonome, utilisation dashboard, quiz d'evaluation final</div>
+          </div>
+          <div class="deliverable-cell">
+            <div class="deliverable-type">Documentation technique</div>
+            <div class="deliverable-name">Rapport terrain</div>
+            <div class="deliverable-desc">Photos annotees par UT, verbatims operateurs structures, grille de cotation brute, rapport de polyexposition sur 4 situations identifiees</div>
+          </div>
+          <div class="deliverable-cell">
+            <div class="deliverable-type">Suivi commercial</div>
+            <div class="deliverable-name">Proposition de mission annuelle</div>
+            <div class="deliverable-desc">Offre de revue annuelle du DUERP, mise a jour PAPRIPACT, actualisation reglementaire, ancrage de la relation client sur la duree</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider-full"></div>
+
+<!-- PROJECT 2 -->
+<section class="project-section" id="projet-2" style="background: var(--white);">
+  <div class="project-inner">
+
+    <div class="project-number reveal">02</div>
+
+    <div class="project-header">
+      <div class="reveal-left">
+        <div class="project-category">Mission de conseil : Risques industriels</div>
+        <h2 class="project-title">Etude <em>ATEX</em> et evaluation<br>du risque chimique</h2>
+        <p class="project-abstract">Mission de 16 semaines sur un depot de stockage d'hydrocarbures, simulant les deux prestations phare du portefeuille Bureau Veritas en risques industriels. Zonage des atmospheres explosives, redaction du Document Relatif a la Protection contre les Explosions, evaluation exhaustive du risque chimique par la methode INRS ND2233, et formation du personnel en deux niveaux.</p>
+      </div>
+      <div class="project-meta-block reveal-right" data-delay="1">
+        <div class="meta-line">
+          <div class="meta-key">Secteur simule</div>
+          <div class="meta-val">Logistique hydrocarbures : depot petrolier 45 substances</div>
+        </div>
+        <div class="meta-line">
+          <div class="meta-key">Duree de la mission</div>
+          <div class="meta-val">16 semaines</div>
+        </div>
+        <div class="meta-line">
+          <div class="meta-key">Referentiel Bureau Veritas</div>
+          <div class="meta-val">Maitrise du risque ATEX + Evaluation risque chimique</div>
+        </div>
+        <div class="meta-line">
+          <div class="meta-key">Competences mobilisees</div>
+          <div class="meta-val">Zonage ATEX, INRS ND2233, risque chimique, DRPE, formation, dashboard traçabilite</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTEXTE -->
+    <div class="content-block">
+      <div class="block-label reveal-left">
+        <span class="block-label-num">A</span>
+        Contexte &amp; enjeu
+      </div>
+      <div class="reveal-right">
+        <h3 class="block-title">Un site a double exposition critique</h3>
+        <p class="block-body">Un depot de stockage et de distribution d'hydrocarbures emploie 65 operateurs et logisticiens en contact quotidien avec des substances inflammables et des agents chimiques dangereux. Les zones de chargement, les cuves de stockage et les aires de purge sont susceptibles de contenir des <strong>atmospheres explosives (ATEX)</strong>  un risque majeur encadre par le decret 2002-1553 et les arrates du 8 et 28 juillet 2003, transposant la directive europeenne 99/92/CE. Simultanement, l'exposition chronique aux vapeurs d'hydrocarbures, aux solvants et aux additifs represente un risque chimique sous-evalue, sans traçabilite d'exposition individuelle conforme au Code du travail.</p>
+        <p class="block-body">L'enjeu de la mission est double : <strong>garantir la conformite reglementaire ATEX</strong> - condition sine qua non a l'exploitation legale du site - et <strong>mettre en place un systeme de traçabilite du risque chimique</strong> operationnel, ancre dans la methode de reference INRS ND2233 qu'utilise Bureau Veritas dans ses prestations de conseil.</p>
+
+        <div class="reg-list">
+          <div class="reg-item">
+            <div class="reg-code">Decret 2002-1553</div>
+            <div class="reg-text">Dispositions relatives a la prevention des explosions, obligation d'analyse du risque, de zonage et de formalisation dans le DRPE pour tout site ayant des zones ATEX</div>
+          </div>
+          <div class="reg-item">
+            <div class="reg-code">Directive 99/92/CE</div>
+            <div class="reg-text">Directive "ATEX lieux de travail" transposee en droit francais, classification des zones, categorie des appareils requis, formations obligatoires du personnel intervenant</div>
+          </div>
+          <div class="reg-item">
+            <div class="reg-code">Norme EN 60079-10</div>
+            <div class="reg-text">Methode de classification des emplacements dangereux en presence de gaz ou de vapeurs inflammables, reference technique pour le zonage zones 0, 1 et 2</div>
+          </div>
+          <div class="reg-item">
+            <div class="reg-code">INRS ND2233</div>
+            <div class="reg-text">Methode de reference pour l'evaluation du risque chimique au poste de travail, cotation par couple produit/tache, identification des agents chimiques dangereux prioritaires</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OBJECTIFS -->
+    <div class="content-block">
+      <div class="block-label reveal-left">
+        <span class="block-label-num">B</span>
+        Objectifs
+      </div>
+      <div class="reveal-right">
+        <h3 class="block-title">Quatre objectifs contractuels</h3>
+        <div class="phase-deliverable-list">
+          <div class="phase-deliverable"><strong>01 - Conformite ATEX totale.</strong> Realiser le zonage complet des atmospheres explosives, auditer l'adequation du materiel electrique et non electrique au zonage etabli, et rediger le DRPE conforme au decret 2002-1553, document rendant le site exploitable legalement.</div>
+          <div class="phase-deliverable"><strong>02 - Evaluation exhaustive du risque chimique.</strong> Inventorier les 45 substances presentes sur site, constituer les groupes d'exposition homogene (GEH), appliquer la methode INRS ND2233 pour coter chaque couple produit/tache et produire les notices de poste et fiches d'exposition individuelles.</div>
+          <div class="phase-deliverable"><strong>03 - Systeme de traçabilite des expositions.</strong> Deployer un tableau de bord Power BI permettant au service HSE de suivre les expositions par poste, de declencher automatiquement une mise a jour de l'evaluation lors de l'introduction d'une nouvelle substance, et de transmettre les donnees au service de sante au travail.</div>
+          <div class="phase-deliverable"><strong>04 - Competence interne renforcee.</strong> Former l'ensemble du personnel ATEX en deux niveaux : sensibilisation operateurs (4h) et formation referents/donneurs d'ordre (1 journee), avec quiz d'evaluation et certificat de presence.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- METHODOLOGIE -->
+    <div class="content-block">
+      <div class="block-label reveal-left">
+        <span class="block-label-num">C</span>
+        Methodologie
+      </div>
+      <div class="reveal-right">
+        <h3 class="block-title">Six phases, deux expertises combinees</h3>
+        <p class="block-body">La singularite de cette mission est de mener en parallele deux demarches d'expertise ATEX et risque chimique, qui se nourrissent mutuellement : l'inventaire des substances inflammables alimente le zonage ATEX, et le zonage eclaire les mesures de prevention a integrer dans les notices de poste du risque chimique.</p>
+
+        <div class="phase-list">
+          <div class="phase-item">
+            <div class="phase-num-circle">1</div>
+            <div class="phase-content-wrap">
+              <div class="phase-heading">Cadrage reglementaire et collecte des FDS <span class="phase-timing">Semaines 1 - 2</span></div>
+              <div class="phase-desc">Analyse des textes applicables et constitution de la base de donnees des 45 substances presentes sur site. Pour chaque substance : identification de la Limite Inferieure d'Explosivite (LIE) et de la Limite Superieure d'Explosivite (LSE), temperature d'inflammation, classification CLP, VLEP court et long terme. Croisement avec les plans de masse et schemas P&ID des installations pour identifier les zones a potentiel ATEX.</div>
+              <div class="phase-deliverable-list">
+                <div class="phase-deliverable">Base de donnees des 45 FDS - LIE, LSE, T° inflammation, VLEP, classification CLP <span class="tech">Excel</span></div>
+                <div class="phase-deliverable">Matrice de correspondance substance / zone probable, premier presortage des zones ATEX</div>
+                <div class="phase-deliverable">Recueil des plans de masse, schemas P&ID, procedures d'exploitation et historique des incidents</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-item">
+            <div class="phase-num-circle">2</div>
+            <div class="phase-content-wrap">
+              <div class="phase-heading">Visite terrain et identification des sources d'inflammation <span class="phase-timing">Semaines 3 — 5</span></div>
+              <div class="phase-desc">Inspection systematique du site sur 8 demi-journees avec grille d'observation structuree : sources de degagement (robinets, brides, joints, zones de chargement), sources d'inflammation potentielles (equipements electriques, points chauds, electricite statique, travaux par point chaud, engins de manutention). Classification de chaque zone selon la norme EN 60079-10 : zone 0 (presence permanente), zone 1 (presence probable), zone 2 (presence occasionnelle). Audit d'adequation du materiel electrique et non electrique au zonage : verification du marquage Ex, des certificats de conformite delivres par un bureau notifie, des appareils portatifs des operateurs.</div>
+              <div class="phase-deliverable-list">
+                <div class="phase-deliverable">Plan de zonage ATEX annote : zones 0/1/2 delimitees en plan et en coupe, echelle 1/100 <span class="tech">AutoCAD/Visio</span></div>
+                <div class="phase-deliverable">Rapport d'audit materiel : inventaire des equipements par zone, ecarts identifies, conformite ou non aux categories Ex requises</div>
+                <div class="phase-deliverable">Liste des non-conformites : priorite 1 (risque immediat), priorite 2 (mesures a planifier), estimations de cout</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-item">
+            <div class="phase-num-circle">3</div>
+            <div class="phase-content-wrap">
+              <div class="phase-heading">Evaluation du risque chimique : methode INRS ND2233 <span class="phase-timing">Semaines 6 - 8</span></div>
+              <div class="phase-desc">Application systematique de la methode INRS ND2233 pour chaque couple produit/tache identifie sur site. Constitution des groupes d'exposition homogene (GEH) — salaries realisant les memes taches avec les memes produits dans les memes conditions. Pour chaque GEH : caracterisation de la voie d'exposition (inhalation, contact cutane), estimation de la duree et de la frequence d'exposition, comparaison aux VLEP court terme et long terme, et cotation du risque chimique en 3 niveaux (priorite 1 : inacceptable - action immediate ; priorite 2 : risque a reduire ; priorite 3 : risque maitrise). Elaboration du plan d'actions de reduction base sur les 9 principes generaux de prevention du Code du travail.</div>
+              <div class="phase-deliverable-list">
+                <div class="phase-deliverable">Rapport d'evaluation du risque chimique : 45 substances, 8 GEH, cotation ND2233 complete <span class="tech">Outil BV/INRS</span></div>
+                <div class="phase-deliverable">Notices de poste pour 10 postes a risque : EPI requis, conduites a tenir, surveillance medicale specifique</div>
+                <div class="phase-deliverable">Fiches de prevention d'exposition nominatives : penibilite, traçabilite C2P, fiches d'exposition individuelle aux ACD</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-item">
+            <div class="phase-num-circle">4</div>
+            <div class="phase-content-wrap">
+              <div class="phase-heading">Redaction du DRPE et plan de mesures <span class="phase-timing">Semaines 9 - 11</span></div>
+              <div class="phase-desc">Formalisation du Document Relatif a la Protection contre les Explosions (DRPE) piece maitresse de la conformite ATEX, annexee au Document Unique d'Evaluation des Risques. Ce document integre : la description des installations et des sources de degagement, les zones ATEX delimitees avec leurs caracteristiques, l'inventaire des sources d'inflammation recensees, la liste des appareils et systemes de protection requis par zone, les procedures de travail en zone ATEX (permis de feu, autorisation d'entree), et les modalites de formation du personnel. Definition des mesures techniques et organisationnelles : mise a la terre des installations de transfert, systemes de detection gaz, aspiration des zones fermees, signalisation reglementaire EX, procedure de remplacement prioritaire des materiels non conformes.</div>
+              <div class="phase-deliverable-list">
+                <div class="phase-deliverable">DRPE complet : zones, sources, materiels, mesures, procedures, contacts d'urgence, pret a signer par le chef d'etablissement</div>
+                <div class="phase-deliverable">Procedure de mise a jour du DRPE : declencheurs, responsable, periodicite, lien avec le DUERP</div>
+                <div class="phase-deliverable">Plan d'actions ATEX : 22 actions priorisees, estimations budgetaires, echeancier de mise en conformite</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-item">
+            <div class="phase-num-circle">5</div>
+            <div class="phase-content-wrap">
+              <div class="phase-heading">Dashboard de traçabilite des expositions <span class="phase-timing">Semaine 12</span></div>
+              <div class="phase-desc">Construction d'un tableau de bord Power BI dedié a la traçabilite du risque chimique, remis au service HSE et au service de sante au travail. Fonctionnalites : visualisation des niveaux de risque par GEH, historique des expositions par poste, alertes automatiques en cas de depassement potentiel de VLEP, declenchement de notification au responsable HSE lors de l'ajout d'une nouvelle substance dans la base de donnees. Transfert de competence sur la mise a jour de la base substances.</div>
+              <div class="phase-deliverable-list">
+                <div class="phase-deliverable">Dashboard Power BI risque chimique : 5 onglets : GEH, expositions, VLEP, alertes, historique <span class="tech">Power BI</span></div>
+                <div class="phase-deliverable">Systeme d'alertes automatises : notification responsable HSE, declencheur mise a jour evaluation</div>
+                <div class="phase-deliverable">Guide d'utilisation et de mise a jour : 15 pages, destine au responsable HSE non specialiste Power BI</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="phase-item">
+            <div class="phase-num-circle">6</div>
+            <div class="phase-content-wrap">
+              <div class="phase-heading">Formation ATEX et restitution client <span class="phase-timing">Semaines 13 - 16</span></div>
+              <div class="phase-desc">Animation de deux modules de formation ATEX conformes aux exigences de la directive 99/92/CE, conçus selon les standards pedagogiques de Bureau Veritas Formation. Module Niveau 1 (operateurs) : 4 heures, signalisation ATEX, comportements interdits en zone, procedure d'urgence, EPI requis. Module Niveau 2 (referents et donneurs d'ordre) : 1 journee, reglementation ATEX, lecture du plan de zonage, gestion du DRPE, conduite des evaluations de risques avant travaux, audit periodique du materiel. Restitution COPIL en presence de la direction, du responsable HSE, du service de sante au travail et du CSE. Remise du pack complet et presentation de la proposition de mission de suivi annuelle.</div>
+              <div class="phase-deliverable-list">
+                <div class="phase-deliverable">Module ATEX Niveau 1 : support 45 slides, exercices pratiques sur le plan de zonage, quiz de validation 10 questions</div>
+                <div class="phase-deliverable">Module ATEX Niveau 2 : support 80 slides, cas pratiques d'audit materiel, simulation d'evaluation pre-travaux</div>
+                <div class="phase-deliverable">Restitution COPIL : synthese executif, cartographies, plan d'action priorise, offre de suivi annuel</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTATS -->
+    <div class="content-block">
+      <div class="block-label reveal-left">
+        <span class="block-label-num">D</span>
+        Resultats
+      </div>
+      <div class="reveal-right">
+        <h3 class="block-title">Conformite, traçabilite, competence</h3>
+
+        <div class="results-grid">
+          <div class="result-cell">
+            <div class="result-figure"><span class="counter" data-target="100">0</span><span class="result-suffix">%</span></div>
+            <div class="result-desc">Conformite ATEX au decret 2002-1553 et a la directive 99/92/CE — site exploitable legalement</div>
+            <div class="result-ref">DRPE signe par le chef d'etablissement</div>
+          </div>
+          <div class="result-cell">
+            <div class="result-figure"><span class="counter" data-target="45">0</span></div>
+            <div class="result-desc">Substances chimiques evaluees : 8 GEH constitues, cotation ND2233 complete</div>
+            <div class="result-ref">Methode INRS ND2233</div>
+          </div>
+          <div class="result-cell">
+            <div class="result-figure"><span class="counter" data-target="3">0</span></div>
+            <div class="result-desc">Types de zones ATEX delimites (0, 1 et 2) : materiel audite sur l'ensemble du site</div>
+            <div class="result-ref">Norme EN 60079-10</div>
+          </div>
+          <div class="result-cell">
+            <div class="result-figure"><span class="counter" data-target="40">0</span><span class="result-suffix">+</span></div>
+            <div class="result-desc">Personnes formees ATEX en deux niveaux : competence interne ancree durablement</div>
+            <div class="result-ref">Modules BV Formation</div>
+          </div>
+        </div>
+
+        <div class="critical-note">
+          <div class="critical-note-label">Analyse critique - Limite et recommandation</div>
+          <div class="critical-note-text">L'absence de mesures metrologique reelles des concentrations atmospheriques (chromatographie, dosimetrie passive) constitue la limite principale de cette mission simulee. En conditions reelles, les resultats de la cotation ND2233 devraient etre systematiquement confrontes a des mesures d'hygiene industrielle sur les postes les plus exposes, avant de conclure a un niveau de risque maitrise ou non. Bureau Veritas dispose de cette competence de mesure en interne, c'est une prestation complementaire que je proposerais systematiquement au client en phase de restitution.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DELIVERABLES -->
+    <div class="content-block">
+      <div class="block-label reveal-left">
+        <span class="block-label-num">E</span>
+        Livrables
+      </div>
+      <div class="reveal-right">
+        <h3 class="block-title">Le pack complet remis au client</h3>
+        <div class="deliverables-grid">
+          <div class="deliverable-cell">
+            <div class="deliverable-type">Document reglementaire</div>
+            <div class="deliverable-name">DRPE complet</div>
+            <div class="deliverable-desc">Zones ATEX, sources d'inflammation, inventaire materiel, mesures techniques et organisationnelles, procedures de travail — pret a signer</div>
+          </div>
+          <div class="deliverable-cell">
+            <div class="deliverable-type">Plans techniques</div>
+            <div class="deliverable-name">Plans de zonage ATEX</div>
+            <div class="deliverable-desc">Plans de masse et coupes avec delimitation 3D des zones 0/1/2 - format PDF imprimable et DWG modifiable</div>
+          </div>
+          <div class="deliverable-cell">
+            <div class="deliverable-type">Rapport technique</div>
+            <div class="deliverable-name">Rapport risque chimique</div>
+            <div class="deliverable-desc">45 substances, 8 GEH, cotation ND2233 complete, notices de poste, fiches d'exposition individuelles, plan de reduction</div>
+          </div>
+          <div class="deliverable-cell">
+            <div class="deliverable-type">Outil de suivi</div>
+            <div class="deliverable-name">Dashboard traçabilite</div>
+            <div class="deliverable-desc">Power BI 5 onglets : expositions par GEH, VLEP, alertes automatiques, historique, transmissible au service de sante au travail</div>
+          </div>
+          <div class="deliverable-cell">
+            <div class="deliverable-type">Formation</div>
+            <div class="deliverable-name">2 modules ATEX</div>
+            <div class="deliverable-desc">Niveau operateur (4h) et niveau referent/donneur d'ordre (1j) - supports, exercices, quiz, certificats de presence</div>
+          </div>
+          <div class="deliverable-cell">
+            <div class="deliverable-type">Suivi commercial</div>
+            <div class="deliverable-name">Mission de revue annuelle</div>
+            <div class="deliverable-desc">Proposition d'audit annuel de mise a jour du DRPE, actualisation ND2233, recyclage ATEX du personnel — relation client perenne</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider-full"></div>
+
+<!-- METHOD -->
+<section class="method-section" id="methode">
+  <div class="method-inner">
+    <div class="section-sup reveal" style="color:rgba(247,245,240,0.4); margin-bottom:1.2rem;">
+      <span style="display:block;width:28px;height:1px;background:rgba(247,245,240,0.3);flex-shrink:0;"></span>
+      Ma methode de travail
+    </div>
+    <h2 class="method-heading reveal" data-delay="1">Une consultante QSE<br><em>qui pilote par la donnee et l'amélioration continue</em></h2>
+    <p class="method-sub reveal" data-delay="2">La conformite reglementaire est le point de depart, pas la destination. Ce qui differencie une mission de conseil a forte valeur ajoutee, c'est la capacite a transformer le risque identifie en levier de performance operationnelle durable.</p>
+
+    <div class="method-grid reveal" data-delay="3">
+      <div class="method-cell">
+        <div class="method-cell-num">01</div>
+        <div class="method-cell-title">Rigueur reglementaire</div>
+        <div class="method-cell-body">Chaque livrable est ancre dans un texte de reference precis : article du Code du travail, decret, norme EN, methodologie INRS. Je ne livre rien qui ne soit juridiquement defensable. En cas d'inspection ou de contentieux, le client dispose d'un dossier complet, date, archive.</div>
+      </div>
+      <div class="method-cell">
+        <div class="method-cell-num">02</div>
+        <div class="method-cell-title">Approche terrain d'abord</div>
+        <div class="method-cell-body">La realite des risques se lit sur le terrain, pas dans les documents. Je consacre systematiquement plus de temps a l'observation et aux entretiens operateurs qu'a la redaction. Ce qui n'est pas vu ne peut pas etre evalue. Ce qui n'est pas evalue ne peut pas etre maitrise.</div>
+      </div>
+      <div class="method-cell">
+        <div class="method-cell-num">03</div>
+        <div class="method-cell-title">Pilotage par la donnee</div>
+        <div class="method-cell-body">La certification Green Belt et la maitrise de Power BI me permettent de livrer des outils de pilotage que le client peut utiliser apres ma mission. Un DUERP sans tableau de bord de suivi est un document mort. Un PAPRIPACT sans indicateurs est un voeu pieu.</div>
+      </div>
+      <div class="method-cell">
+        <div class="method-cell-num">04</div>
+        <div class="method-cell-title">Transfert de competence</div>
+        <div class="method-cell-body">Chaque mission inclut une phase de formation ou de transfert aux equipes internes. L'objectif n'est pas de creer une dependance au consultant mais d'ancrer durablement la competence dans l'organisation. C'est ce qui legitime une relation client sur la duree.</div>
+      </div>
+      <div class="method-cell">
+        <div class="method-cell-num">05</div>
+        <div class="method-cell-title">Vision client integree</div>
+        <div class="method-cell-body">La relation client est une competence a part entiere. Gerer les attentes, adapter le niveau de technicite a l'interlocuteur, presenter les resultats d'une maniere qui declenche des decisions, c'est ce que 18 mois de missions en conseil m'ont appris a faire systematiquement.</div>
+      </div>
+      <div class="method-cell">
+        <div class="method-cell-num">06</div>
+        <div class="method-cell-title">Regard critique constant</div>
+        <div class="method-cell-body">Je consigne systematiquement les limites de mes analyses et ce que j'aurais fait differemment. Un consultant qui ne questionne pas sa propre methode produit des rapports conformes mais pas des missions utiles. La remise en question fait partie de la livraison.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Ange Farelle Boupda</div>
+  <ul class="footer-contacts">
+    <li><a href="mailto:bm.angefarelle@gmail.com">bm.angefarelle@gmail.com</a></li>
+    <li><a href="tel:+33612608554">+33 6 12 60 85 54</a></li>
+    <li><a href="https://www.linkedin.com/in/ange-farelle-boupda" target="_blank">LinkedIn</a></li>
+  </ul>
+  <div class="footer-note">Portfolio QSE - Candidature Bureau Veritas 2026</div>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function animateCursor() {
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateCursor);
+})();
+document.querySelectorAll('a, button, .phase-item, .deliverable-cell, .result-cell').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '16px'; cursor.style.height = '16px';
+    ring.style.width = '54px'; ring.style.height = '54px';
+    ring.style.borderColor = 'rgba(26,58,92,0.5)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '8px'; cursor.style.height = '8px';
+    ring.style.width = '36px'; ring.style.height = '36px';
+    ring.style.borderColor = 'rgba(10,10,10,0.4)';
+  });
+});
+
+// SCROLL PROGRESS
+const progressBar = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  progressBar.style.width = pct + '%';
+});
+
+// NAV SCROLL CLASS
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// INTERSECTION OBSERVER — REVEALS
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .draw-line');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+revealEls.forEach(el => obs.observe(el));
+
+// COUNTER ANIMATION
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const duration = 1800;
+  const start = performance.now();
+  function step(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - t, 4);
+    el.textContent = Math.round(ease * target);
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animateCounter(e.target);
+      counterObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
+</script>
+</body>
+</html>
